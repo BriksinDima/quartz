@@ -1,0 +1,84 @@
+spring:
+  datasource:
+    password: root
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+  jpa:
+    database: POSTGRESQL
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    show-sql: true
+  quartz:
+    jdbc:
+      commentPrefix: ” — “
+      initialize-schema: never
+    job-store-type: jdbc
+    properties:
+      org:
+        quartz:
+          jobStore:
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            dataSource: quartzDataSource
+            useProperties: true
+            clusterCheckinInterval: 5000
+            isClustered: true
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+          scheduler:
+            instanceId: AUTO
+          threadPool:
+            threadCount: 10
+          dataSource:
+            quartzDataSource:
+              driver: org.postgresql.Driver
+              platform: postgres
+              URL: jdbc:postgresql://localhost:5432/
+              user: postgres
+              password: root
+              maxConnections: 2
+
+quartz:
+  driver: org.postgresql.Driver
+  platform: postgres
+  URL: jdbc:postgresql://localhost:5432/
+  user: postgres
+  password: root
+
+
+#          plugin:
+#            shutdownHook:
+#              class: org.quartz.plugins.management.ShutdownHookPlugin
+#              cleanShutdown: true
+#org:
+#  quartz:
+#    dataSource:
+#      quartzDataSource:
+#        url: jdbc:postgresql://localhost:5432/quartz_schema
+#        driver: com.mysql.jdbc.Driver
+#        password: change_me
+#        user: root
+#    jobStore:
+#      class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#      dataSource: quartzDataSource
+#      driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#      tablePrefix: QRTZ_
+#    scheduler:
+#      instanceId: EXAMPLE_INSTANCE
+#      instanceName: DatabaseScheduler
+#      skipUpdateCheck: true
+#    threadPool:
+#      class: org.quartz.simpl.SimpleThreadPool
+#      threadCount: 1
+#
+#
+#password: root
+#  #                platform: postgres
+#  URL: jdbc:postgresql://localhost:5432/QUARTZ_SCHEMA
+#  user: postgres
